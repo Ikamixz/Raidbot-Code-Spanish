@@ -61,6 +61,5 @@
 - Muestra la latencia del bot
 
 ## Creator :
-
-- **Zydrex**
+**Zydrex**
 
