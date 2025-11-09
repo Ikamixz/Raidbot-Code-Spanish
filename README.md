@@ -60,6 +60,10 @@
 
 - Muestra la latencia del bot
 
+15. **KS**
+
+- Programa 4 comandos que se ejecutaran en cuanto metas al bot al servidor, debes de recordar que el comando de $ks lo tienes que poner en un servidor donde esté bot para que funcione y luego meter el bot al servidor que raidearas.
+
 ## Creator :
 **Zydrex**
 
