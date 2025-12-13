@@ -16,8 +16,7 @@ Este proyecto está pensado con fines **educativos y experimentales**, mostrando
 
 Instálalas con:
 ```PowerShell
-pip install -U discord.py
-pip install aiohttp
+Setup.py
 ```
 ## Explicación de los comandos de RaidBot
 
