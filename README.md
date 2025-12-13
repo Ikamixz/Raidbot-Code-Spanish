@@ -9,7 +9,7 @@ Este proyecto está pensado con fines **educativos y experimentales**, mostrando
 
 ---
 
-⚙️ **Requisitos**
+**Requisitos**
 
 - Python 3.9 o superior
 - Windows
