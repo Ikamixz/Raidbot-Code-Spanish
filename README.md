@@ -92,4 +92,5 @@ Esto demuestra cómo un bot puede coordinar múltiples acciones simultáneamente
 Estos comandos son potentes y modifican directamente la estructura del servidor. Se recomienda usarlos únicamente en entornos de prueba o con fines educativos, ya que pueden alterar de forma drástica un servidor real.
 
 Discord Server : https://discord.gg/3NwMRyScs4
+(hice el texto con chat gpt por que andaba de huevón)
 
