@@ -52,6 +52,9 @@ RaidBot incluye una serie de comandos diseñados para interactuar con servidores
 - **`$bn`**  
   Banea a todos los miembros del servidor, excepto al autor del comando, al dueño y al propio bot.
 
+- **`$db`**  
+  Desbanea a un usuario por medio de su ID.
+
 - **`$dr`**  
   Elimina todos los roles del servidor, excepto los protegidos (como el rol por defecto, el dueño y el bot).
 
@@ -91,6 +94,6 @@ Esto demuestra cómo un bot puede coordinar múltiples acciones simultáneamente
 **Nota importante**:  
 Estos comandos son potentes y modifican directamente la estructura del servidor. Se recomienda usarlos únicamente en entornos de prueba o con fines educativos, ya que pueden alterar de forma drástica un servidor real.
 
-Discord Server : https://discord.gg/3NwMRyScs4
+Discord Server : https://discord.gg/fFUU5HacTN
 (hice el texto con chat gpt por que andaba de huevón)
 
