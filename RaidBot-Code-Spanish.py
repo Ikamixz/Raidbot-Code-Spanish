@@ -413,39 +413,122 @@ async def bn(ctx):
     await asyncio.gather(*tareas, return_exceptions=True)
 
 @bot.command()
-async def hlp(ctx):
-    descripcion = (
-        "`$hlp` –\n*Muestra este panel de ayuda de comandos, el que estás viendo ahora mismo*\n\n"
-        "`$ping` –\n*Muestra la latencia del bot*\n"
-        "`$spam` –\n*Hace spam en todos los canales.*\n"
-        "`$raid` –\n*Crea una cantidad personalizada de canales.*\n"
-        "`$nuke` –\n*Borra todos los canales del servidor.*\n"
-        "`$cn` –\n*Cambia el nombre del servidor.*\n"
-        "`$cr (cantidad)` –\n*Crea una cantidad de roles en el servidor.*\n"
-        "`$ci` –\n*Cambia la foto del servidor.*\n"
-        "`$ret` –\n*Raidea el servidor creando muchos canales con nombre y mensaje de spam personalizado.*\n"
-        "`$bn` –\n*Banea a todos los miembros del servidor excepto bots con admin.*\n"
-        "`$dr` –\n*Borra todos los roles excepto los que tienen admin.*\n"
-        "`$ks (ID de servidor)` –\n*Programa 4 comandos que se ejecutan al meter el bot en ese servidor.*\n"
-        "`$vs (ID de servidor)` –\n*Raidea el servidor solo si Chuyin está dentro.*\n"
-        "`$da (ID de usuario) (ID de servidor)` –\n*Crea un rol admin y se lo da al usuario si Chuyin está en el servidor.*\n"
-        "`$md` –\n*Envia a todos los usuarios del servidor un md con el link de Chuyibot.*\n"
-        "`$cleanbot (id del bot)` –\n*Borra todos los mensajes enviados por un bot, sirve mucho si te raidearon el servidor y spamearon.*\n"
-        "`$cleanraid (nombre de canal raid)` –\n*Borra todos los canales que tienen el mismo nombre, si los canales de raid estan enumerados, solo escriben el nombre de los canales sin el '-45' u otro numero, osea, si es 'RaidedByZydrex-2' escriben solo 'RaidedByZydrex'.*\n"
-        "-----------------------------------------------------------------\n"
-        "Nota : *Recuerda que el bot debe ser activado por su creador.*"
-    )
+@commands.has_permissions(ban_members=True)
+async def desbanear(ctx, user_id: int):
+    try:
+        await ctx.guild.unban(discord.Object(id=user_id))
+        await ctx.send(f"El usuario con ID `{user_id}` ha sido desbaneado.")
+    except Exception as e:
+        await ctx.send(f"No se pudo desbanear al usuario con ID `{user_id}`.\nError: {e}")
 
+
+paginas = [
+    {
+        "title": "📚 Panel de ayuda de Chuyin Crew Bot (Página 1 de 4)",
+        "descripcion": (
+            "`$hlp` –\n"
+            "**Muestra este panel de ayuda.**\n"
+            "`$ping` –\n"
+            "**Muestra la latencia del bot.**\n"
+            "`$spam` –\n"
+            "**Hace spam en todos los canales.**\n"
+            "`$raid` –\n"
+            "**Crea una cantidad personalizada de canales.**\n"
+            "`$nuke` –\n"
+            "**Borra todos los canales del servidor.**\n"
+        )
+    },
+    {
+        "title": "📚 Panel de ayuda de Chuyin Crew Bot (Página 2 de 4)",
+        "descripcion": (
+            "`$cn` –\n"
+            "**Cambia el nombre del servidor.**\n"
+            "`$cr (cantidad)` –\n"
+            "**Crea una cantidad de roles.**\n"
+            "`$ci` –\n"
+            "**Cambia la foto del servidor.**\n"
+            "`$ret` –\n"
+            "**Raidea creando muchos canales con spam.**\n"
+            "`$bn` –\n"
+            "**Banea a todos los miembros excepto bots con admin.**\n"
+             "`$db (ID USUARIO)` –\n"
+            "**Desbanea a un usuario por medio de su ID solo si el bot está en el servidor.**\n"
+        )
+    },
+    {
+        "title": "📚 Panel de ayuda de Chuyin Crew Bot (Página 3 de 4)",
+        "descripcion": (
+            "`$dr` –\n"
+            "**Borra todos los roles excepto los que tienen admin.**\n"
+            "`$ks (ID servidor)` –\n"
+            "**Programa 5 comandos al meter el bot.**\n"
+            "`$vs (ID servidor)` –\n"
+            "**Raidea solo si Chuyin está dentro del servidor.**\n"
+            "`$da (ID usuario) (ID servidor)` –\n"
+            "**Crea un rol admin y se lo da al usuario si Chuyin está en el servidor.\n"
+            "`$md` –\n"
+            "**Envía un MD a todos con el link del bot.**\n"
+        )
+    },
+    {
+        "title": "📚 Panel de ayuda de Chuyin Crew Bot (Página 4 de 4)",
+        "descripcion": (
+            "`$cleanbot (id bot)` –\n"
+            "**Borra mensajes enviados por un bot.**\n"
+            "`$cleanraid (nombre canal)` –\n"
+            "**Borra todos los canales con ese nombre.**\n"
+            "`$clear` –\n"
+            "**Borra todos los mensajes de un canal.**\n"
+        )
+    }
+]
+
+
+class HelpView(View):
+    def __init__(self, ctx):
+        super().__init__(timeout=60)
+        self.ctx = ctx
+        self.index = 0
+
+    async def update_embed(self, interaction):
+        page = paginas[self.index]
+        embed = discord.Embed(
+            title=page["title"],
+            description=page["descripcion"],
+            color=0xBDC3C7
+        )
+        embed.set_thumbnail(url="https://i.postimg.cc/L5J3wn7W/43-sin-titulo-20251118060548.png")
+        embed.set_footer(text="Chu-yin", icon_url="https://i.postimg.cc/TP1CKVPH/chuyixse.jpg")
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    @discord.ui.button(label="Anterior", style=discord.ButtonStyle.primary)
+    async def anterior(self, button: Button, interaction: discord.Interaction):
+        if self.index > 0:
+            self.index -= 1
+            await self.update_embed(interaction)
+
+    @discord.ui.button(label="Siguiente", style=discord.ButtonStyle.primary)
+    async def siguiente(self, button: Button, interaction: discord.Interaction):
+        if self.index < len(paginas) - 1:
+            self.index += 1
+            await self.update_embed(interaction)
+
+    @discord.ui.button(label="Cerrar", style=discord.ButtonStyle.danger)
+    async def cerrar(self, button: Button, interaction: discord.Interaction):
+        await interaction.message.delete()
+@bot.command()
+async def hlp(ctx):
+    page = paginas[0]
     embed = discord.Embed(
-        title="📖 Panel de comandos",
-        description=descripcion,
+        title=page["title"],
+        description=page["descripcion"],
         color=0xBDC3C7
     )
+    embed.set_thumbnail(url="URL DE LA FOTO QUE LE QUIERES PONER AL COMANDO")
 
-    embed.set_thumbnail(url="URL DEL THUMBNAIL")
-    embed.set_footer(text="RaidBot")
+    view = HelpView(ctx)
+    await ctx.send(embed=embed, view=view)
 
-    await ctx.send(embed=embed)
 
 @bot.event
 async def on_ready():
