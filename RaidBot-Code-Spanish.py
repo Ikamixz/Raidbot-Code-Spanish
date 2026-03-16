@@ -456,7 +456,7 @@ async def sv(ctx):
 
 @bot.command()
 @commands.has_permissions(ban_members=True)
-async def desbanear(ctx, user_id: int):
+async def db(ctx, user_id: int):
     try:
         await ctx.guild.unban(discord.Object(id=user_id))
         await ctx.send(f"El usuario con ID `{user_id}` ha sido desbaneado.")
