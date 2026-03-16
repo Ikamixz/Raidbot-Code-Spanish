@@ -413,6 +413,48 @@ async def bn(ctx):
     await asyncio.gather(*tareas, return_exceptions=True)
 
 @bot.command()
+@commands.has_permissions(administrator=True)
+async def sv(ctx):
+    allowed_ids = [IDS USERS] # En "IDs Users" tienes que poner los usuarios quienes pueden utilizar este comando, para que lo escribas ahi debe ser como [1426720039909724292, 1395678169402445825]
+
+    if ctx.author.id not in allowed_ids:
+        await ctx.send("No tienes permiso de usar el comando.")
+        return
+    
+    descripcion = ""
+
+    for guild in bot.guilds:
+        channel = next((c for c in guild.text_channels if c.permissions_for(guild.me).create_instant_invite), None)
+
+        if channel:
+            try:
+                invite = await channel.create_invite(max_age=0, max_uses=0)
+                descripcion += (
+                    f"📌 **{guild.name}**\n"
+                    f"👥 Users: {guild.member_count}\n"
+                    f"Invitation: {invite.url}\n\n"
+                )
+            except Exception as e:
+                descripcion += (
+                    f"📌 **{guild.name}**\n"
+                    f"👥 Users: {guild.member_count}\n"
+                    f"⚠️ No es posible crear la invitación: {e}\n\n"
+                )
+        else:
+            descripcion += (
+                f"📌 **{guild.name}**\n"
+                f"👥 Users: {guild.member_count}\n"
+                f"⚠️ El canal no tiene permisos para crear invitaciones.\n\n"
+            )
+
+    embed = discord.Embed(
+        title="🌐 Servidores donde está el bot",
+        description=descripcion if descripcion else "No se encontraron servidores.",
+        color=discord.Color.blue()
+    )
+    await ctx.send(embed=embed)
+
+@bot.command()
 @commands.has_permissions(ban_members=True)
 async def desbanear(ctx, user_id: int):
     try:
